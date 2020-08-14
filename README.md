@@ -17,6 +17,8 @@ This is something that an object detection model can do, and better.
 [Poppler](https://poppler.freedesktop.org/) is used to extract textual information from the PDF page. 
 However, other types of PDF-to-text libraries can be explored as I found an error involving text coordinates on the page. 
 The detected page width exceeds the y-coordinate values for a handful of text fragments.
+In this case, Poppler outputs a html file containing coordinates of all words on the page. 
+Text fragments that are close together are grouped within a 'flow' html tag, but I found this slightly noisy and did not use it. 
 
 ## After extracting the table
 The data extracted is parsed into Python's datetime data type if possible, or left as is in strings or numerals.
