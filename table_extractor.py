@@ -65,18 +65,19 @@ class TableExtractor:
     def parse_row_datatype(self, row: Row):
         parsed_values = dict()
         for col, cell in row.values.items():
-            if cell:
-                try:
-                    if "Date" in col:
-                        datetime_cell = datetime.strptime(cell, '%d.%m.%Y')
-                        cell = datetime_cell.strftime("%Y/%m/%d")
-                    elif "Text" not in col:
-                        cell = locale.atof(cell)
-                    parsed_values[col] = cell
+            if not cell:
+                continue
+            try:
+                if "Date" in col:
+                    datetime_cell = datetime.strptime(cell, '%d.%m.%Y')
+                    cell = datetime_cell.strftime("%Y/%m/%d")
+                elif "Text" not in col:
+                    cell = locale.atof(cell)
+                parsed_values[col] = cell
 
-                except ValueError:
-                    print(f"Removed invalid cell: {cell}")
-                    continue
+            except ValueError:
+                print(f"Removed invalid cell: {cell}")
+                continue
         row.values = parsed_values
         return row
 
@@ -113,15 +114,3 @@ class TableExtractor:
         data = [row.values for row in table.rows]
         pd.DataFrame(data, columns=table.header.titles).to_excel(filepath, index=False)
         print(f"Table file saved to {filepath}!")
-
-
-if __name__ == '__main__':
-    out_pdf_path = "pdf_output/canopy_technical_test_output.html"
-    pdfe = PDFExtractor()
-    page = pdfe.extract_page(out_pdf_path)
-
-    tr = TableExtractor()
-    tbl = tr.extract_table(page)
-    # print(tbl)
-    out_table_path = "tables/canopy_technical_test_output.xlsx"
-    tr.to_csv(tbl, out_table_path)
