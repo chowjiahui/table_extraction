@@ -22,3 +22,15 @@ The detected page width exceeds the y-coordinate values for a handful of text fr
 The data extracted is parsed into Python's datetime data type if possible, or left as is in strings or numerals.
 Each column can be associated with a certain data-type - one simple way is if the column contains the word "Date", then data can very likely be parsed into datetime.
 Conversely, I also use this method to filter out other irrelevant text that isn't part of the table, like footnotes. 
+
+## Setting up and running the script
+
+Running `setup.sh` under the scripts folder should suffice if there is conda installed. 
+```
+./scripts/setup.sh
+```
+The above should create and activate a conda environment. 
+After specifying the respective folders and paths in `main.py`, run:
+```
+python main.py
+```
